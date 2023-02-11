@@ -8,6 +8,16 @@ local git_signs_enabled  = false
 local git_signs_setup    = false
 local GS_SETUP_DELAY_MS  = 500
 local GS_ATTACH_DELAY_MS = 5
+local git_signs_keymaps  = {
+    { mode = 'n',           lhs = '<C-k>',      rhs = gs.prev_hunk },
+    { mode = 'n',           lhs = '<C-j>',      rhs = gs.next_hunk },
+    { mode = {'n', 'v'},    lhs ='<leader>a',   rhs = gs.stage_hunk },
+    { mode = {'n', 'v'},    lhs ='<leader>u',   rhs = gs.reset_hunk },
+    { mode = 'n',           lhs ='<leader>p',   rhs = gs.preview_hunk },
+    { mode = 'n',           lhs ='<leader>d',   rhs = ':Gitsigns diffthis<CR><C-w>w' },
+    -- from tpope/vim-fugitive
+    { mode = 'n',           lhs ='<leader>b',   rhs = ':Git blame<CR><C-w>w' },
+}
 
 -- Keymap entry point to our git mode
 vim.keymap.set('n', '<leader>gg', function() git_signs_toggle() end)
@@ -29,16 +39,15 @@ local function attach_or_detach_keymaps(attach, buffer)
 
     local bufopts = { buffer = buffer or bufnr }
 
-    -- local to gitsigns
-    map_or_unmap(attach, 'n',        '<C-k>',       gs.prev_hunk,                      bufopts)
-    map_or_unmap(attach, 'n',        '<C-j>',       gs.next_hunk,                      bufopts)
-    map_or_unmap(attach, {'n', 'v'}, '<leader>a',   gs.stage_hunk,                     bufopts)
-    map_or_unmap(attach, {'n', 'v'}, '<leader>u',   gs.reset_hunk,                     bufopts)
-    map_or_unmap(attach, 'n',        '<leader>p',   gs.preview_hunk,                   bufopts)
-    map_or_unmap(attach, 'n',        '<leader>d',   ':Gitsigns diffthis<CR><C-w>w',    bufopts)
-
-    -- from tpope/vim-fugitive
-    map_or_unmap(attach, 'n',        '<leader>b',   ':Git blame<CR><C-w>w',            bufopts) 
+    for i_keymap = 1, #git_signs_keymaps do
+        map_or_unmap(
+            attach,
+            git_signs_keymaps[i_keymap].mode,
+            git_signs_keymaps[i_keymap].lhs,
+            git_signs_keymaps[i_keymap].rhs,
+            bufopts
+        )
+    end
 end
 
 -- @brief For setup on_attach
