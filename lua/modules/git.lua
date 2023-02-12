@@ -15,16 +15,20 @@ local git_signs_setup    = false
 local GS_SETUP_DELAY_MS  = 500
 local GS_ATTACH_DELAY_MS = 5
 local git_signs_keymaps  = {
-    { mode = 'n',           lhs = '<C-k>',                              rhs = gs.prev_hunk },
-    { mode = 'n',           lhs = '<C-j>',                              rhs = gs.next_hunk },
-    { mode = 'n',           lhs = replace_leader('<leader>a'),          rhs = gs.stage_hunk },
-    { mode = 'v',           lhs = replace_leader('<leader>a'),          rhs = gs.stage_hunk },
-    { mode = 'n',           lhs = replace_leader('<leader>u'),          rhs = gs.reset_hunk },
-    { mode = 'v',           lhs = replace_leader('<leader>u'),          rhs = gs.reset_hunk },
-    { mode = 'n',           lhs = replace_leader('<leader>p'),          rhs = gs.preview_hunk },
-    { mode = 'n',           lhs = replace_leader('<leader>d'),          rhs = ':Gitsigns diffthis<CR><C-w>w' },
+    { mode = 'n', lhs = '<C-k>',                        rhs = gs.prev_hunk },
+    { mode = 'n', lhs = '<C-j>',                        rhs = gs.next_hunk },
+    { mode = 'n', lhs = replace_leader('<leader>a'),    rhs = gs.stage_hunk },
+    { mode = 'v', lhs = replace_leader('<leader>a'),    rhs = gs.stage_hunk },
+    { mode = 'n', lhs = replace_leader('<leader>u'),    rhs = gs.reset_hunk },
+    { mode = 'v', lhs = replace_leader('<leader>u'),    rhs = gs.reset_hunk },
+    { mode = 'n', lhs = replace_leader('<leader>p'),    rhs = gs.preview_hunk },
+    { mode = 'n', lhs = replace_leader('<leader>d'),    rhs = ':Gitsigns diffthis<CR><C-w>w' },
     -- from tpope/vim-fugitive
-    { mode = 'n',           lhs = replace_leader('<leader>b'),          rhs = ':Git blame<CR><C-w>w' },
+    { mode = 'n', lhs = replace_leader('<leader>x'),    rhs = ':Git blame<CR><C-w>w' },
+    -- from telescope
+    { mode = 'n', lhs = replace_leader('<leader>c'),    rhs = require('telescope.builtin').git_commits },
+    { mode = 'n', lhs = replace_leader('<leader>s'),    rhs = require('telescope.builtin').git_status },
+    { mode = 'n', lhs = replace_leader('<leader>b'),    rhs = require('telescope.builtin').git_branches },
 }
 
 -- Keymap entry point to our git mode
