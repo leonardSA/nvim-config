@@ -64,34 +64,13 @@ local function restore_original_keymaps_table(mappings, buffer)
     original_keymaps_table = {}
 end
 
--- @brief Attach or detach keymaps to a buffer
--- @attach attach if true else detach
--- @bufnum buffer to attach or detach
-local function attach_or_detach_keymaps(attach, buffer)
-    local function map_or_unmap(map, mode, l, r, opts)
-        if map == true then
-            vim.keymap.set(mode, l, r, opts)
-        else
-            vim.keymap.del(mode, l, opts)
-        end
-    end
-
-    local bufopts = { buffer = buffer or bufnr }
-
-    for i_keymap = 1, #git_signs_keymaps do
-        map_or_unmap(
-            attach,
-            git_signs_keymaps[i_keymap].mode,
-            git_signs_keymaps[i_keymap].lhs,
-            git_signs_keymaps[i_keymap].rhs,
-            bufopts
-        )
-    end
-end
-
 -- @brief For setup on_attach
-local function on_attach(bufnr)
-    attach_or_detach_keymaps(true, _)
+-- @buffer do not use
+local function on_attach(buffer)
+    local bufopts = { buffer = bufnr }
+    for _, keymap in ipairs(git_signs_keymaps) do
+        vim.keymap.set(keymap.mode, keymap.lhs, keymap.rhs, bufopts)
+    end
 end
 ------------------------------------------------------------------------------- 
 
