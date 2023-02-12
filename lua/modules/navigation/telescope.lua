@@ -13,10 +13,6 @@ vim.keymap.set('n', '<C-p>', builtin.find_files)
 vim.keymap.set('n', '<A-p>g', builtin.live_grep)
 -- buffers binds
 vim.keymap.set('n', '<A-p>t', builtin.buffers)
--- git binds
-vim.keymap.set('n', '<A-p>s', builtin.git_status)
-vim.keymap.set('n', '<A-p>c', builtin.git_commits)
-vim.keymap.set('n', '<A-p>b', builtin.git_branches)
 ------------------------------------------------------------------------------- 
 
 require('telescope').setup({
