@@ -3,24 +3,28 @@
 ------------------------------------------------------------------------------- 
 -- use gitsigns, vim-fugitive and telescope
 
+-- @brief Replaces '<leader>' in string with global leader char.
+-- @input string containing '<leader>'
+local function replace_leader(input)
+    return string.gsub(input, '<leader>', vim.g.mapleader)
+end
+
 local gs                 = require("gitsigns")
 local git_signs_enabled  = false
 local git_signs_setup    = false
 local GS_SETUP_DELAY_MS  = 500
 local GS_ATTACH_DELAY_MS = 5
--- FIXME: leader will not be recognised by original keymaps because it has been converted already
--- leader is space
 local git_signs_keymaps  = {
-    { mode = 'n',           lhs = '<C-k>',      rhs = gs.prev_hunk },
-    { mode = 'n',           lhs = '<C-j>',      rhs = gs.next_hunk },
-    { mode = 'n',           lhs =' a',          rhs = gs.stage_hunk },
-    { mode = 'v',           lhs =' a',          rhs = gs.stage_hunk },
-    { mode = 'n',           lhs =' u',          rhs = gs.reset_hunk },
-    { mode = 'v',           lhs =' u',          rhs = gs.reset_hunk },
-    { mode = 'n',           lhs =' p',          rhs = gs.preview_hunk },
-    { mode = 'n',           lhs =' d',          rhs = ':Gitsigns diffthis<CR><C-w>w' },
+    { mode = 'n',           lhs = '<C-k>',                              rhs = gs.prev_hunk },
+    { mode = 'n',           lhs = '<C-j>',                              rhs = gs.next_hunk },
+    { mode = 'n',           lhs = replace_leader('<leader>a'),          rhs = gs.stage_hunk },
+    { mode = 'v',           lhs = replace_leader('<leader>a'),          rhs = gs.stage_hunk },
+    { mode = 'n',           lhs = replace_leader('<leader>u'),          rhs = gs.reset_hunk },
+    { mode = 'v',           lhs = replace_leader('<leader>u'),          rhs = gs.reset_hunk },
+    { mode = 'n',           lhs = replace_leader('<leader>p'),          rhs = gs.preview_hunk },
+    { mode = 'n',           lhs = replace_leader('<leader>d'),          rhs = ':Gitsigns diffthis<CR><C-w>w' },
     -- from tpope/vim-fugitive
-    { mode = 'n',           lhs =' b',          rhs = ':Git blame<CR><C-w>w' },
+    { mode = 'n',           lhs = replace_leader('<leader>b'),          rhs = ':Git blame<CR><C-w>w' },
 }
 
 -- Keymap entry point to our git mode
