@@ -43,6 +43,28 @@ local function find_files_open(prompt_bufnr)
     actions.select_default(prompt_bufnr)
 end
 
+local function buffers_open(prompt_bufnr)
+    local entry = require('telescope.actions.state').get_selected_entry()
+    local target_buffer = entry.bufnr
+
+    -- look for a corresponding buffer through every windows of every tab
+    local tabs = vim.api.nvim_list_tabpages()
+    for _, tab in ipairs(tabs) do
+        local windows = vim.api.nvim_tabpage_list_wins(tab)
+        for _, window in ipairs(windows) do
+            local buffer = vim.api.nvim_win_get_buf(window)
+            if target_buffer == buffer then -- switch to tab where file is opened and exit
+                vim.api.nvim_set_current_tabpage(tab)
+                vim.api.nvim_set_current_win(window)
+                return
+            end
+        end
+    end
+
+    -- file is not opened yet
+    actions.select_default(prompt_bufnr)
+end
+
 ------------------------------------------------------------------------------- 
 
 require('telescope').setup({
@@ -74,6 +96,10 @@ require('telescope').setup({
     pickers = {
         buffers = {
             preview_title = false,
+            mappings = {
+                i = { ["<CR>"] = buffers_open, },
+                n = { ["<CR>"] = buffers_open, },
+            },
         },
         find_files = {
             prompt_title = 'Search Project',
