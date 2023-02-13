@@ -2,8 +2,9 @@
 -- TELESCOPE CONFIGURATION
 ------------------------------------------------------------------------------- 
 
-local builtin = require('telescope.builtin')
-local actions = require('telescope.actions')
+local builtin       = require('telescope.builtin')
+local actions       = require('telescope.actions')
+local actions_state = require('telescope.actions.state')
 
 ------------------------------------------------------------------------------- 
 -- Keymapping
@@ -18,95 +19,75 @@ vim.keymap.set('n', '<A-p>b', builtin.buffers)
 ------------------------------------------------------------------------------- 
 -- Private functions
 
+-- @brief Look for a opened buffer corresponding to the filename through every windows of every tab.
+-- @filename absolute path to file
+-- @return tab=tabpage_id, win=window_id if found else tab=nil, win=nil
+local function get_tabpage_and_window(filename)
+    local tabs = vim.api.nvim_list_tabpages()
+    for _, tab in ipairs(tabs) do
+        local windows = vim.api.nvim_tabpage_list_wins(tab)
+        for _, window in ipairs(windows) do
+            local bufname = vim.api.nvim_buf_get_name(vim.api.nvim_win_get_buf(window))
+            if filename == bufname then
+                return tab, window
+            end
+        end
+    end
+    return nil, nil 
+end
+
 -- @brief Opens a file in a new buffer if it is not already opened else switches to the opened buffer.
 -- @prompt_bufnr current buffer aka buffer in which to open the file if it is not opened yet
 local function find_files_open(prompt_bufnr) 
-    local entry = require('telescope.actions.state').get_selected_entry()
-    -- get absolute path to file to compare with bufname
+    local entry    = actions_state.get_selected_entry()
     local filename = entry['cwd'] .. '/' .. entry.value
-
-    -- look for a corresponding buffer through every windows of every tab
-    local tabs = vim.api.nvim_list_tabpages()
-    for _, tab in ipairs(tabs) do
-        local windows = vim.api.nvim_tabpage_list_wins(tab)
-        for _, window in ipairs(windows) do
-            local bufname = vim.api.nvim_buf_get_name(vim.api.nvim_win_get_buf(window))
-            if filename == bufname then -- switch to tab where file is opened and exit
-                vim.api.nvim_set_current_tabpage(tab)
-                vim.api.nvim_set_current_win(window)
-                return
-            end
-        end
+    local tab, win = get_tabpage_and_window(filename)
+    if nil == tab then -- open file
+        actions.select_default(prompt_bufnr)
+    else -- switch to file
+        vim.api.nvim_set_current_tabpage(tab)
+        vim.api.nvim_set_current_win(win)
     end
-
-    -- file is not opened yet
-    actions.select_default(prompt_bufnr)
 end
 
+-- @brief Opens a file in a new buffer if it is not already opened else switches to the opened buffer.
+-- @prompt_bufnr current buffer aka buffer in which to open the file if it is not opened yet
 local function buffers_open(prompt_bufnr)
-    local entry = require('telescope.actions.state').get_selected_entry()
-    local target_buffer = entry.bufnr
-
-    -- look for a corresponding buffer through every windows of every tab
-    local tabs = vim.api.nvim_list_tabpages()
-    for _, tab in ipairs(tabs) do
-        local windows = vim.api.nvim_tabpage_list_wins(tab)
-        for _, window in ipairs(windows) do
-            local buffer = vim.api.nvim_win_get_buf(window)
-            if target_buffer == buffer then -- switch to tab where file is opened and exit
-                vim.api.nvim_set_current_tabpage(tab)
-                vim.api.nvim_set_current_win(window)
-                return
-            end
-        end
+    local filename = vim.fn.getcwd() .. '/' .. actions_state.get_selected_entry().filename
+    local tab, win = get_tabpage_and_window(filename)
+    if nil == tab then -- open file
+        actions.select_default(prompt_bufnr)
+    else -- switch to file
+        vim.api.nvim_set_current_tabpage(tab)
+        vim.api.nvim_set_current_win(win)
     end
-
-    -- file is not opened yet
-    actions.select_default(prompt_bufnr)
 end
 
+-- @brief Opens a file in a new buffer if it is not already opened else switches to the opened buffer.
+-- @prompt_bufnr current buffer aka buffer in which to open the file if it is not opened yet
 local function git_status_open(prompt_bufnr)
-    -- get absolute path to file to compare with bufname
-    local filename = require('telescope.actions.state').get_selected_entry().path
-
-    -- look for a corresponding buffer through every windows of every tab
-    local tabs = vim.api.nvim_list_tabpages()
-    for _, tab in ipairs(tabs) do
-        local windows = vim.api.nvim_tabpage_list_wins(tab)
-        for _, window in ipairs(windows) do
-            local bufname = vim.api.nvim_buf_get_name(vim.api.nvim_win_get_buf(window))
-            if filename == bufname then -- switch to tab where file is opened and exit
-                vim.api.nvim_set_current_tabpage(tab)
-                vim.api.nvim_set_current_win(window)
-                return
-            end
-        end
+    local filename = actions_state.get_selected_entry().path
+    local tab, win = get_tabpage_and_window(filename)
+    if nil == tab then -- open file
+        actions.select_default(prompt_bufnr)
+    else -- switch to file
+        vim.api.nvim_set_current_tabpage(tab)
+        vim.api.nvim_set_current_win(win)
     end
-
-    -- file is not opened yet
-    actions.select_default(prompt_bufnr)
 end
 
+-- @brief Opens a file in a new buffer if it is not already opened else switches to the opened buffer.
+-- @prompt_bufnr current buffer aka buffer in which to open the file if it is not opened yet
 local function live_grep_open(prompt_bufnr)
-    local entry = require('telescope.actions.state').get_selected_entry()
+    local entry    = actions_state.get_selected_entry()
     local filename = vim.fn.getcwd() .. '/' .. entry.filename
-
-    -- look for a corresponding buffer through every windows of every tab
-    local tabs = vim.api.nvim_list_tabpages()
-    for _, tab in ipairs(tabs) do
-        local windows = vim.api.nvim_tabpage_list_wins(tab)
-        for _, window in ipairs(windows) do
-            local bufname = vim.api.nvim_buf_get_name(vim.api.nvim_win_get_buf(window))
-            if filename == bufname then -- switch to tab where file is opened and exit
-                vim.api.nvim_set_current_tabpage(tab)
-                vim.api.nvim_win_set_cursor(0, { entry.lnum, entry.col })
-                return
-            end
-        end
+    local tab, win = get_tabpage_and_window(filename)
+    if nil == tab then -- open file
+        actions.select_default(prompt_bufnr)
+    else -- switch to file
+        vim.api.nvim_set_current_tabpage(tab)
+        vim.api.nvim_win_set_cursor(win, { entry.lnum, entry.col })
     end
-
-    -- file is not opened yet
-    actions.select_default(prompt_bufnr)
 end
 
 ------------------------------------------------------------------------------- 
