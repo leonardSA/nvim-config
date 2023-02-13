@@ -12,6 +12,7 @@ local actions_state = require('telescope.actions.state')
 -- files binds
 vim.keymap.set('n', '<C-p>', builtin.find_files)
 vim.keymap.set('n', '<A-p>g', builtin.live_grep)
+vim.keymap.set('n', '<A-p>h', builtin.oldfiles)
 -- buffers binds
 vim.keymap.set('n', '<A-p>b', builtin.buffers)
 ------------------------------------------------------------------------------- 
@@ -90,6 +91,19 @@ local function live_grep_open(prompt_bufnr)
     end
 end
 
+-- @brief Opens a file in a new buffer if it is not already opened else switches to the opened buffer.
+-- @prompt_bufnr current buffer aka buffer in which to open the file if it is not opened yet
+local function oldfiles_open(prompt_bufnr)
+    local filename = actions_state.get_selected_entry().value
+    local tab, win = get_tabpage_and_window(filename)
+    if nil == tab then -- open file
+        actions.select_default(prompt_bufnr)
+    else -- switch to file
+        vim.api.nvim_set_current_tabpage(tab)
+        vim.api.nvim_set_current_win(win)
+    end
+end
+
 ------------------------------------------------------------------------------- 
 
 require('telescope').setup({
@@ -135,6 +149,10 @@ require('telescope').setup({
         },
         oldfiles = {
             prompt_title = 'Search File History',
+            mappings = {
+                i = { ["<CR>"] = oldfiles_open, },
+                n = { ["<CR>"] = oldfiles_open, },
+            },
         },
         live_grep = {
             mappings = {
