@@ -87,6 +87,28 @@ local function git_status_open(prompt_bufnr)
     actions.select_default(prompt_bufnr)
 end
 
+local function live_grep_open(prompt_bufnr)
+    local entry = require('telescope.actions.state').get_selected_entry()
+    local filename = vim.fn.getcwd() .. '/' .. entry.filename
+
+    -- look for a corresponding buffer through every windows of every tab
+    local tabs = vim.api.nvim_list_tabpages()
+    for _, tab in ipairs(tabs) do
+        local windows = vim.api.nvim_tabpage_list_wins(tab)
+        for _, window in ipairs(windows) do
+            local bufname = vim.api.nvim_buf_get_name(vim.api.nvim_win_get_buf(window))
+            if filename == bufname then -- switch to tab where file is opened and exit
+                vim.api.nvim_set_current_tabpage(tab)
+                vim.api.nvim_win_set_cursor(0, { entry.lnum, entry.col })
+                return
+            end
+        end
+    end
+
+    -- file is not opened yet
+    actions.select_default(prompt_bufnr)
+end
+
 ------------------------------------------------------------------------------- 
 
 require('telescope').setup({
@@ -132,6 +154,12 @@ require('telescope').setup({
         },
         oldfiles = {
             prompt_title = 'Search File History',
+        },
+        live_grep = {
+            mappings = {
+                i = { ["<CR>"] = live_grep_open, },
+                n = { ["<CR>"] = live_grep_open, },
+            },
         },
         git_status = {
             preview_title = false,
