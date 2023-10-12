@@ -69,6 +69,7 @@ All plugins configuration files are set in the **module** directory.
 |  | n | \<A-l\> | \<C-w\>l | Navigate to window right to current window |
 | comment.lua | n, v | \<leader\>c | :Commentary | Comment out a line |
 |  | n | \<leader\>d | :Dox | Generate a Doxygen style comment |
+|  | n | \<leader\>D | :DoxBlock | Generate a Doxygen group style comment |
 | navigation/nvim-tree.lua | n | \<C-n\> | :NvimTreeToggle | Toggle NvimTree |
 |  | n | q | :NvimTreeClose | In tree: close tree |
 |  | n | w | api.node.navigate.parent\_close | In tree: close parent node |
