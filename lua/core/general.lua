@@ -32,6 +32,7 @@ vim.opt.background      = 'dark'
 vim.opt.scrolloff       = 999
 vim.opt.cursorline      = true
 vim.opt.relativenumber  = true
+vim.opt.number = true
 vim.opt.colorcolumn     = '120'
 -- tabulations
 vim.opt.tabstop         = 4
