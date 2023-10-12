@@ -18,6 +18,19 @@ vim.keymap.set('n', '<A-p>b', builtin.buffers)
 ------------------------------------------------------------------------------- 
 
 ------------------------------------------------------------------------------- 
+-- Autocommands
+
+-- set line numbers in previewer
+vim.api.nvim_create_autocmd(
+    {"User"}, 
+    {
+        pattern = {"TelescopePreviewerLoaded"},
+        command = "setlocal number",
+    }
+)
+------------------------------------------------------------------------------- 
+
+------------------------------------------------------------------------------- 
 -- Private functions
 
 -- @brief Look for a opened buffer corresponding to the filename through every windows of every tab.
