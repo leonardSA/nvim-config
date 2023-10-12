@@ -5,8 +5,8 @@ local cmp = require('cmp')
 
 ------------------------------------------------------------------------------- 
 -- Configure UltiSnips as snippet engine
-vim.g.UltiSnipsJumpForwardTrigger  = '<c-j>'
-vim.g.UltiSnipsJumpBackwardTrigger = '<c-k>'
+vim.g.UltiSnipsJumpForwardTrigger  = '<c-k>'
+vim.g.UltiSnipsJumpBackwardTrigger = '<c-j>'
 -- cannot set lua way
 vim.cmd("let g:UltiSnipsSnippetDirectories = ['~/.config/nvim/lua/modules/completion/snips']")
 ------------------------------------------------------------------------------- 

@@ -109,8 +109,8 @@ All plugins configuration files are set in the **module** directory.
 |  | t | \<A-k\> | \<C-\\\>\<C-n\>\<C-w\>k | In terminal: navigate to top window |
 |  | t | \<A-l\> | \<C-\\\>\<C-n\>\<C-w\>l | In terminal: navigate to right window |
 | git.lua | n | \<leader\>gg | *git\_signs\_toggle* | Toggle git mode |
-|  | n | \<C-k\> | gs.prev\_hunk | In git mode: go to previous hunk |
-|  | n | \<C-j\> | gs.next\_hunk | In git mode: go to next hunk |
+|  | n | \<C-j\> | gs.prev\_hunk | In git mode: go to previous hunk |
+|  | n | \<C-k\> | gs.next\_hunk | In git mode: go to next hunk |
 |  | n, v | \<leader\>a | gs.stage\_hunk | In git mode: stage hunk |
 |  | n, v | \<leader\>u | gs.reset\_hunk | In git mode: reset hunk |
 |  | n | \<leader\>p | gs.preview\_hunk | In git mode: preview hunk diffs in floating window  |
