@@ -122,7 +122,9 @@ All plugins configuration files are set in the **module** directory.
 | lsp.lua | n | \<S-k\> | vim.lsp.buf.hover | Open documentation in floating window |
 |  | n | gD | vim.lsp.buf.declaration | Go to declaration |
 |  | n | gd | vim.lsp.buf.definition | Go to definition |
-|  | n | gr | vim.lsp.buf.references | Browse references in split window |
+|  | n | g] | vim.diagnostic.goto\_next | Go to next diagnostic |
+|  | n | g[ | vim.diagnostic.goto\_previous | Go to previous diagnostic |
+|  | n | gr | :Telescope lsp\_references | Browse references using Telescope |
 | completion/cmp.lua |  | \<Tab\> | cmp.mapping.confirm({ select = true }) | Select top completion |
 |  |  | \<C-p\> | cmp.mapping.select\_next\_item() | Go to next completion |
 |  |  | \<C-n\> | cmp.mapping.select\_prev\_item() | Go to previous completion |
