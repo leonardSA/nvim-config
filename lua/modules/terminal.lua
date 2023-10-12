@@ -3,7 +3,7 @@
 ------------------------------------------------------------------------------- 
 
 -- Keymap entry points to terminal
-vim.keymap.set('n', '<S-t>', ':tabnew<CR>:terminal<CR>i') -- directly go into insert mode
+vim.keymap.set('n', '<leader>t', ':tabnew<CR>:terminal<CR>i') -- directly go into insert mode
 vim.keymap.set('n', '<C-t>', ':FloatermNew --height=1.0 --width=0.4 --wintype=vsplit<cr>')
 
 ------------------------------------------------------------------------------- 

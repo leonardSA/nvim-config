@@ -100,7 +100,7 @@ All plugins configuration files are set in the **module** directory.
 |  | i, n | \<C-k\> | actions.preview\_scrolling\_up | In picker: scroll up in preview |
 |  | i, n | \<C-e\> | actions.select\_tab | In picker: open in new tab, actions depends on picker |
 |  | n | \<C-c\> | actions.close | In picker: close picker |
-| terminal.lua | n | \<S-t\> | :tabnew\<CR\>:terminal\<CR\>i | Open a terminal in a new tab |
+| terminal.lua | n | \<leader\>t | :tabnew\<CR\>:terminal\<CR\>i | Open a terminal in a new tab |
 |  | n | \<C-t\> | :FloatermNew --height=1.0 --width=0.4 --wintype=vsplit | Open a terminal in a split window in current buffer |
 |  | t | \<Esc\> | \<C-\\\>\<C-n\> | In terminal: exit insert mode |
 |  | t | \<A-h\> | \<C-\\\>\<C-n\>\<C-w\>h | In terminal: navigate to left window |
