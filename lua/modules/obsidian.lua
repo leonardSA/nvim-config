@@ -2,6 +2,13 @@
 -- OBSIDIAN CONFIGURATION
 ------------------------------------------------------------------------------- 
 
+-- list of obsidian workspaces
+local workspaces = {
+    {
+        name = "little_brain",
+        path = "~/Documents/brain_vault",
+    },
+}
 
 require("obsidian").setup(
 {
@@ -11,42 +18,31 @@ require("obsidian").setup(
     -- When obsidian.nvim is loaded by your plugin manager, it will automatically set
     -- the workspace to the first workspace in the list whose `path` is a parent of the
     -- current markdown file being edited.
-    workspaces = {
-        {
-            name = "personal",
-            path = "~/vaults/personal",
-        },
-        {
-            name = "work",
-            path = "~/vaults/work",
-            -- Optional, override certain settings.
-            overrides = {
-                notes_subdir = "notes",
-            },
-        },
-    },
+    workspaces = workspaces,
 
     -- Alternatively - and for backwards compatibility - you can set 'dir' to a single path instead of
     -- 'workspaces'. For example:
     -- dir = "~/vaults/work",
 
     -- Optional, if you keep notes in a specific subdirectory of your vault.
-    notes_subdir = "notes",
+    -- notes_subdir = "notes",
 
+    -- TODO: we'll set elsewhere
     -- Optional, set the log level for obsidian.nvim. This is an integer corresponding to one of the log
     -- levels defined by "vim.log.levels.*".
-    log_level = vim.log.levels.INFO,
+    -- log_level = vim.log.levels.INFO,
 
-    daily_notes = {
-        -- Optional, if you keep daily notes in a separate directory.
-        folder = "notes/dailies",
-        -- Optional, if you want to change the date format for the ID of daily notes.
-        date_format = "%Y-%m-%d",
-        -- Optional, if you want to change the date format of the default alias of daily notes.
-        alias_format = "%B %-d, %Y",
-        -- Optional, if you want to automatically insert a template from your template directory like 'daily.md'
-        template = nil
-    },
+    -- TODO: do we?
+    -- daily_notes = {
+    --     -- Optional, if you keep daily notes in a separate directory.
+    --     folder = "notes/dailies",
+    --     -- Optional, if you want to change the date format for the ID of daily notes.
+    --     date_format = "%Y-%m-%d",
+    --     -- Optional, if you want to change the date format of the default alias of daily notes.
+    --     alias_format = "%B %-d, %Y",
+    --     -- Optional, if you want to automatically insert a template from your template directory like 'daily.md'
+    --     template = nil
+    -- },
 
     -- Optional, completion of wiki links, local markdown links, and tags using nvim-cmp.
     completion = {
@@ -75,10 +71,11 @@ require("obsidian").setup(
         },
     },
 
+    -- TODO: look at when you feel like it
     -- Where to put new notes. Valid options are
     --  * "current_dir" - put new notes in same directory as the current buffer.
     --  * "notes_subdir" - put new notes in the default notes subdirectory.
-    new_notes_location = "notes_subdir",
+    -- new_notes_location = "notes_subdir",
 
     -- Optional, customize how note IDs are generated given an optional title.
     ---@param title string|?
@@ -160,8 +157,9 @@ require("obsidian").setup(
     end,
 
     -- Optional, for templates (see below).
+    -- TODO: disable for now
     templates = {
-        subdir = "templates",
+        -- subdir = "templates",
         date_format = "%Y-%m-%d",
         time_format = "%H:%M",
         -- A map for custom variables, the key should be the variable and the value a function
