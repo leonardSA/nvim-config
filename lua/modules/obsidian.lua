@@ -304,4 +304,12 @@ local configuration = {
     },
 }
 
-require("obsidian").setup(configuration)
+-- set up obsidian only if currently in an obsidian workspace
+for _, workspace in ipairs(workspaces) do
+    -- compare absolute path to ensure we are in a workspace
+    if vim.loop.cwd() == vim.fn.expand(workspace.path) then
+        -- setup obsidian and exit loop
+        require("obsidian").setup(configuration)
+        break
+    end
+end
