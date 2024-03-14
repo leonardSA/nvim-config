@@ -308,6 +308,10 @@ local configuration = {
 for _, workspace in ipairs(workspaces) do
     -- compare absolute path to ensure we are in a workspace
     if vim.loop.cwd() == vim.fn.expand(workspace.path) then
+        -- set miniumum conceallevel for obsidian if necessary
+        if 0 == vim.opt.conceallevel then
+            vim.opt.conceallevel = 1
+        end
         -- setup obsidian and exit loop
         require("obsidian").setup(configuration)
         break
