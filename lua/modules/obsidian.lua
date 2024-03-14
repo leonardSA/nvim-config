@@ -10,8 +10,8 @@ local workspaces = {
     },
 }
 
-require("obsidian").setup(
-{
+-- configuration options
+local configuration = {
     -- A list of workspace names, paths, and configuration overrides.
     -- If you use the Obsidian app, the 'path' of a workspace should generally be
     -- your vault root (where the `.obsidian` folder is located).
@@ -303,4 +303,5 @@ require("obsidian").setup(
         end,
     },
 }
-)
+
+require("obsidian").setup(configuration)
